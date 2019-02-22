@@ -15,11 +15,10 @@ func failOnError(err error, msg string) {
 }
 
 func bodyFrom(args []string) string {
-	if len(args) == 1 {
+	if len(args) == 1 || args[1] == "" {
 		return "hello ."
 	}
 
-	// log.Printf("args: %s", args)
 	return strings.Join(args[1:], " ")
 }
 

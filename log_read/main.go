@@ -1,9 +1,7 @@
 package main
 
 import (
-	"bytes"
 	"log"
-	"time"
 
 	"github.com/streadway/amqp"
 )
@@ -39,6 +37,8 @@ func main() {
 		nil,
 	)
 
+	failOnError(err, "Fail to bind a queue")
+
 	err = ch.Qos(
 		1,     //prefetch count
 		0,     //prefetch size
@@ -47,12 +47,12 @@ func main() {
 	failOnError(err, "Failed to set qos")
 
 	msgs, err := ch.Consume(
-		q.Name,
-		"",
-		false,
-		false,
-		false,
-		false,
+		q.Name, //queue name
+		"",     //consumer
+		true,   //auto ack
+		false,  //exclusive
+		false,  //no local
+		false,  //no wait
 		nil,
 	)
 
@@ -63,12 +63,12 @@ func main() {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
-			dot_count := bytes.Count(d.Body, []byte("."))
+			// dot_count := bytes.Count(d.Body, []byte("."))
 			// log.Printf("Dot count sleep time: %s", dot_count)
-			t := time.Duration(dot_count)
-			time.Sleep(t * time.Second)
-			log.Printf("Done")
-			d.Ack(false)
+			// t := time.Duration(dot_count)
+			// time.Sleep(t * time.Second)
+			// log.Printf("Done")
+			// d.Ack(false)
 		}
 	}()
 
