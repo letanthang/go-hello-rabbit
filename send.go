@@ -30,7 +30,7 @@ func main() {
 	)
 	failOnError(err, "Failed to declare a queue")
 
-	body := "hello world"
+	body := "hello world 123"
 	err = ch.Publish(
 		"",     //exchange
 		q.Name, //routing key
