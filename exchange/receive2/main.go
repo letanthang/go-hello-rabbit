@@ -21,7 +21,7 @@ func main() {
 	failOnError(err, "Fail to create a channel")
 
 	q, err := ch.QueueDeclare(
-		"hellogo",
+		"",
 		false,
 		false,
 		false,
@@ -30,9 +30,9 @@ func main() {
 	)
 
 	err = ch.QueueBind(
-		q.Name, // queue name
-		"",     // routing key
-		"",     // exchange
+		q.Name,      // queue name
+		"",          // routing key
+		"hellosang", // exchange
 		false,
 		nil,
 	)
